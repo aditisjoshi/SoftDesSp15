@@ -2,7 +2,7 @@
 """
 Created on Sun Feb  2 11:24:42 2014
 
-@author: YOUR NAME HERE
+@author: ADITI JOSHI 
 
 """
 
@@ -28,8 +28,22 @@ def get_complement(nucleotide):
     'T'
     >>> get_complement('C')
     'G'
+    >>> get_complement('B')
+    False
+    >>> get_complement(7)
+    False
     """
     # TODO: implement this
+    if (nucleotide == 'A'):
+        return 'T'
+    elif (nucleotide == 'T'):
+        return 'A'
+    elif (nucleotide == 'C'):
+        return 'G'
+    elif (nucleotide == 'G'):
+        return 'C'
+    else:
+        return False
     pass
 
 def get_reverse_complement(dna):
@@ -42,8 +56,15 @@ def get_reverse_complement(dna):
     'AAAGCGGGCAT'
     >>> get_reverse_complement("CCGCGTTCA")
     'TGAACGCGG'
+    >>> get_reverse_complement("C")
+    'G'
     """
     # TODO: implement this
+    dnaReverse = dna[::-1]
+    reverseComplement = ''
+    for x in range(0, len(dnaReverse)):
+        reverseComplement += get_complement(dnaReverse[x])
+    return reverseComplement
     pass
 
 def rest_of_ORF(dna):
@@ -57,8 +78,22 @@ def rest_of_ORF(dna):
     'ATG'
     >>> rest_of_ORF("ATGAGATAGG")
     'ATGAGA'
+    >>> rest_of_ORF("ATGCCCTAA")
+    'ATGCCC'
+    >>> rest_of_ORF("ATGAGAG")
+    'ATGAGAG'
     """
     # TODO: implement this
+    # stop codons: 'TAG', 'TAA', 'TGA'
+    for x in range(1, len(dna)):
+        if(x % 3 == 0):
+            if (dna[x] == 'T' and dna[x+1] == 'A' and dna[x+2] == 'G'):
+                return dna[:x]
+            elif (dna[x] == 'T' and dna[x+1] == 'A' and dna[x+2] == 'A'):
+                return dna[:x]
+            elif (dna[x] == 'T' and dna[x+1] == 'G' and dna[x+2] == 'A'):
+                return dna[:x]
+    return dna
     pass
 
 def find_all_ORFs_oneframe(dna):
@@ -70,11 +105,25 @@ def find_all_ORFs_oneframe(dna):
         
         dna: a DNA sequence
         returns: a list of non-nested ORFs
-    >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC")
+    >>> find_all_ORFs_oneframe("ATGCATGAATGTAGATAGATGTGCCC") 
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
+    >>> find_all_ORFs_oneframe("ATGATGCCCTAG")
+    ['ATGATGCCC']
+    >>> find_all_ORFs_oneframe("AGCATGTAG")
+    ['ATG']
+    >>> find_all_ORFs_oneframe("ATGTAGATG")
+    ['ATG', 'ATG']
     """
     # TODO: implement this
-    pass
+    allorfs = []
+    x = 0
+    while x < len(dna):
+        if(dna[x] == 'A' and dna[x+1] == 'T' and dna[x+2] == 'G'):
+            allorfs.append(rest_of_ORF(dna[x:]))
+            x = x + len(rest_of_ORF(dna[x:]))
+        else:
+            x += 3
+    return allorfs
 
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
