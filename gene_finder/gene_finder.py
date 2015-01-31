@@ -117,7 +117,7 @@ def find_all_ORFs_oneframe(dna):
     # TODO: implement this
     allorfs = []
     x = 0
-    while x < len(dna):
+    while x < len(dna)-2:
         if(dna[x] == 'A' and dna[x+1] == 'T' and dna[x+2] == 'G'):
             allorfs.append(rest_of_ORF(dna[x:]))
             x = x + len(rest_of_ORF(dna[x:]))
@@ -138,6 +138,11 @@ def find_all_ORFs(dna):
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
     """
     # TODO: implement this
+    allorfs = []
+    allorfs += (find_all_ORFs_oneframe(dna))
+    allorfs += (find_all_ORFs_oneframe(dna[1:]))
+    allorfs += (find_all_ORFs_oneframe(dna[2:]))
+    return allorfs
     pass
 
 def find_all_ORFs_both_strands(dna):
@@ -150,6 +155,11 @@ def find_all_ORFs_both_strands(dna):
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
     """
     # TODO: implement this
+    allorfs = []
+    reverse_dna = get_reverse_complement(dna)
+    allorfs += find_all_ORFs(dna)
+    allorfs += find_all_ORFs(reverse_dna)
+    return allorfs
     pass
 
 
