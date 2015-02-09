@@ -59,10 +59,9 @@ def get_reverse_complement(dna):
     >>> get_reverse_complement("")
     ''
     """
-    dnaReverse = dna[::-1]
     reverseComplement = ''
-    for x in range(0, len(dnaReverse)):
-        reverseComplement += get_complement(dnaReverse[x])
+    for x in range(0, len(dna)):
+        reverseComplement = get_complement(dna[x]) + reverseComplement
     return reverseComplement
 
 def rest_of_ORF(dna):
@@ -172,16 +171,14 @@ def longest_ORF_noncoding(dna, num_trials):
         dna: a DNA sequence
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
-    orfslength = []
+    # orfslength = []
+    max_length = 0
     for i in range(num_trials):
         dna_shuffle = shuffle_string(dna)
-        if longest_ORF(dna_shuffle) == 0:
-            longest = 0 
-        else: 
-            longest = len(longest_ORF(dna_shuffle))
-        orfslength.append(longest)
-    length = max(orfslength)
-    return length
+        length = len(longest_ORF(dna_shuffle))
+        if max_length < length:
+            max_length = length
+    return max_length
 
 def coding_strand_to_AA(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -217,14 +214,15 @@ def gene_finder(dna):
     threshold = longest_ORF_noncoding(dna, 1500)
     allorfs = find_all_ORFs_both_strands(dna)
     allacids = []
-    if len(allorfs) > threshold:
-        acid = coding_strand_to_AA(allorfs)
-        allacids.append(acid)
+    for orf in allorfs:
+        if len(orf) > threshold:
+            acid = coding_strand_to_AA(orf)
+            allacids.append(acid)
     return allacids
-
-from load import load_seq
-dna = load_seq("./data/X73525.fa")
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+    from load import load_seq
+    dna = load_seq("./data/X73525.fa")
+    print gene_finder(dna)
