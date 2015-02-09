@@ -126,8 +126,9 @@ def find_all_ORFs(dna):
 
     >>> find_all_ORFs("ATGCATGAATGTAG")
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
+    >>> find_all_ORFs("")
+    []
     """
-    # TODO: add unit tests
     allorfs = []
     allorfs += (find_all_ORFs_oneframe(dna))
     allorfs += (find_all_ORFs_oneframe(dna[1:]))
@@ -142,8 +143,9 @@ def find_all_ORFs_both_strands(dna):
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
+    >>> find_all_ORFs_both_strands("")
+    []
     """
-    # TODO: add unit tests
     allorfs = []
     reverse_dna = get_reverse_complement(dna)
     allorfs += find_all_ORFs(dna)
@@ -158,7 +160,6 @@ def longest_ORF(dna):
     >>> longest_ORF("TCAGACCT")
     0
     """
-    # maybe test when there are no ORFS at all in either strand, though this is highly unlikely.
     allorfs = find_all_ORFs_both_strands(dna)
     if len(allorfs) == 0:
         return 0
@@ -195,6 +196,8 @@ def coding_strand_to_AA(dna):
         'MR'
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
+        >>> coding_strand_to_AA("")
+        ''
     """
     amino_acid_full = ''
     if len(dna) % 3 != 0:
@@ -213,6 +216,14 @@ def gene_finder(dna):
     """
     threshold = longest_ORF_noncoding(dna, 1500)
     allorfs = find_all_ORFs_both_strands(dna)
+    allacids = []
+    if len(allorfs) > threshold:
+        acid = coding_strand_to_AA(allorfs)
+        allacids.append(acid)
+    return allacids
+
+from load import load_seq
+dna = load_seq("./data/X73525.fa")
 
 if __name__ == "__main__":
     import doctest
