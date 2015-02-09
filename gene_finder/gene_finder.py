@@ -33,6 +33,7 @@ def get_complement(nucleotide):
     >>> get_complement(7)
     
     """
+    #tests added to test cases that don't give nucleotides
     if (nucleotide == 'A'):
         return 'T'
     elif (nucleotide == 'T'):
@@ -59,6 +60,7 @@ def get_reverse_complement(dna):
     >>> get_reverse_complement("")
     ''
     """
+    #test case added for empty string and for string with just one nucelotide to make extreme cases worked
     reverseComplement = ''
     for x in range(0, len(dna)):
         reverseComplement = get_complement(dna[x]) + reverseComplement
@@ -80,6 +82,7 @@ def rest_of_ORF(dna):
     >>> rest_of_ORF("ATGAGAG")
     'ATGAGAG'
     """
+    # tested cases with entire dna as an ORF
     # stop codons: 'TAG', 'TAA', 'TGA'
     for x in range(0, len(dna), 3):
         if dna[x:x+3] in ['TAG','TAA','TGA']:
@@ -104,6 +107,7 @@ def find_all_ORFs_oneframe(dna):
     >>> find_all_ORFs_oneframe("ATGTAGATG")
     ['ATG', 'ATG']
     """
+    #tested case where last codon is ORF
     allorfs = []
     x = 0
     while x < len(dna)-2:
@@ -128,6 +132,7 @@ def find_all_ORFs(dna):
     >>> find_all_ORFs("")
     []
     """
+    #added test case for empty string
     allorfs = []
     allorfs += (find_all_ORFs_oneframe(dna))
     allorfs += (find_all_ORFs_oneframe(dna[1:]))
@@ -145,6 +150,7 @@ def find_all_ORFs_both_strands(dna):
     >>> find_all_ORFs_both_strands("")
     []
     """
+    #added test case for empty string
     allorfs = []
     reverse_dna = get_reverse_complement(dna)
     allorfs += find_all_ORFs(dna)
@@ -159,6 +165,7 @@ def longest_ORF(dna):
     >>> longest_ORF("TCAGACCT")
     0
     """
+    # tested when dna sequence gives no orfs
     allorfs = find_all_ORFs_both_strands(dna)
     if len(allorfs) == 0:
         return 0
@@ -171,7 +178,7 @@ def longest_ORF_noncoding(dna, num_trials):
         dna: a DNA sequence
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
-    # orfslength = []
+    # can't have test cases for this because num_trials adds randomness; you can never know what the right answer is
     max_length = 0
     for i in range(num_trials):
         dna_shuffle = shuffle_string(dna)
@@ -196,6 +203,7 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("")
         ''
     """
+    # added empty string test case
     amino_acid_full = ''
     if len(dna) % 3 != 0:
         remainder = len(dna) % 3
