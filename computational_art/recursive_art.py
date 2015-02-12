@@ -1,7 +1,10 @@
 """ TODO: Put your header comment here """
 
 import random
+import math
 from PIL import Image
+
+equations = ["prod","avg","cos_pi","sin_pi"]
 
 
 def build_random_function(min_depth, max_depth):
@@ -15,9 +18,25 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
-    pass
+    # add DOCTESTS
+    # the following are the equations to use:
+        #prod(a,b) = ab
+        #avg(a,b) = 0.5*(a+b)
+        #cos_pi(a) = cos(pi*a)
+        #sin_pi(a) = sin(pi*a)
+        #x(a,b) = a
+        #y(a,b) = b
+    stop = min_depth == 0 and max_depth > 0 and random.randint(0,1)
+    
+    # base case
+    if max_depth == 0 or stop:
+        return ["x"] if random.randint(0,1) else ["y"]
 
+    # recursive call
+    index = random.randint(0,3)
+    if index <= 1:
+        return [equations[index], build_random_function(min_depth-1,max_depth-1), build_random_function(min_depth-1,max_depth-1)]
+    return [equations[index], build_random_function(min_depth-1,max_depth-1)]
 
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
@@ -37,7 +56,14 @@ def evaluate_random_function(f, x, y):
         return x
     elif f[0] == "y":
         return y
-
+    elif f[0] == "cos_pi":
+        return math.cos(evaluate_random_function(f[1],x,y)) * math.pi
+    elif f[0] == "sin_pi":
+        return math.sin(evaluate_random_function(f[1],x,y)) * math.pi
+    elif f[0] == "prod":
+        return evaluate_random_function(f[1],x,y) * evaluate_random_function(f[2],x,y)
+    elif f[0] == "avg":
+        return 0.5 * (evaluate_random_function(f[1],x,y) + evaluate_random_function(f[2],x,y))
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
     """ Given an input value in the interval [input_interval_start,
@@ -116,9 +142,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = ["x"]
-    green_function = ["y"]
-    blue_function = ["x"]
+    red_function = build_random_function(7, 9)
+    green_function = build_random_function(7, 9)
+    blue_function = build_random_function(7, 9)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
