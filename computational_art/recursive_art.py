@@ -1,10 +1,14 @@
-""" TODO: Put your header comment here """
+""" 
+Computational Art
+Software Design
+Aditi Joshi
+"""
 
 import random
 import math
 from PIL import Image
 
-equations = ["prod","avg","cos_pi","sin_pi"]
+equations = ["prod","avg", "cos_pi","sin_pi", "sinh", "cosh"]
 
 
 def build_random_function(min_depth, max_depth):
@@ -17,6 +21,8 @@ def build_random_function(min_depth, max_depth):
         returns: the randomly generated function represented as a nested list
                  (see assignment writeup for details on the representation of
                  these functions)
+        >>> len(build_random_function(0,0))
+        1
     """
     # add DOCTESTS
     # the following are the equations to use:
@@ -26,6 +32,7 @@ def build_random_function(min_depth, max_depth):
         #sin_pi(a) = sin(pi*a)
         #x(a,b) = a
         #y(a,b) = b
+
     stop = min_depth == 0 and max_depth > 0 and random.randint(0,1)
     
     # base case
@@ -34,7 +41,7 @@ def build_random_function(min_depth, max_depth):
 
     # recursive call
     index = random.randint(0,3)
-    if index <= 1:
+    if index <= 3:
         return [equations[index], build_random_function(min_depth-1,max_depth-1), build_random_function(min_depth-1,max_depth-1)]
     return [equations[index], build_random_function(min_depth-1,max_depth-1)]
 
@@ -56,10 +63,14 @@ def evaluate_random_function(f, x, y):
         return x
     elif f[0] == "y":
         return y
+    elif f[0] == "sinh":
+        return math.sinh(evaluate_random_function(f[1],x,y))
+    elif f[0] == "cosh":
+        return math.cosh(evaluate_random_function(f[1],x,y))
     elif f[0] == "cos_pi":
-        return math.cos(evaluate_random_function(f[1],x,y)) * math.pi
+        return math.cos(evaluate_random_function(f[1],x,y) * math.pi)
     elif f[0] == "sin_pi":
-        return math.sin(evaluate_random_function(f[1],x,y)) * math.pi
+        return math.sin(evaluate_random_function(f[1],x,y) * math.pi)
     elif f[0] == "prod":
         return evaluate_random_function(f[1],x,y) * evaluate_random_function(f[2],x,y)
     elif f[0] == "avg":
