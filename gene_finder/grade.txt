@@ -1,5 +1,5 @@
 Functionality: 5/5, nice job.
-Documentation: 5/5, nice job with the doc string tests and documenting your functions. Would have liked to see a bit of discussion/interpretation on the results that you got from BLAST.
+Documentation: 4/5, nice job with the doc string tests and documenting your functions. Did you forget to upload your BLAST results? If so, just shoot me an email and let me know. I'm assuming you did do it.
 Style: 5/5 
 
 Nice work!
