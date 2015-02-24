@@ -109,9 +109,11 @@ def find_all_ORFs_oneframe(dna):
     """
     #tested case where last codon is ORF
     allorfs = []
+    #a stylistic thing is to use i or j as counter variables instead of x. when a programmer sees i or j, they know that you mean to use it to index in a loop.
     x = 0
     while x < len(dna)-2:
         if(dna[x] == 'A' and dna[x+1] == 'T' and dna[x+2] == 'G'):
+            #could use dna[x:x+3] == 'TAG':
             allorfs.append(rest_of_ORF(dna[x:]))
             x = x + len(rest_of_ORF(dna[x:]))
         else:
@@ -168,6 +170,7 @@ def longest_ORF(dna):
     # tested when dna sequence gives no orfs
     allorfs = find_all_ORFs_both_strands(dna)
     if len(allorfs) == 0:
+        #it would be a stylistically better choice to return an empty string instead of a number here so that your function always outputs the same type of thing. That way you won't run into an expected error when you operate on the output of this function, expecting it to be a string.
         return 0
     return max(allorfs, key=len)
 
