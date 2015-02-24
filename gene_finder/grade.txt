@@ -1,5 +1,5 @@
 Functionality: 5/5, nice job.
-Documentation: 4/5, nice job with the doc string tests and documenting your functions. Did you forget to upload your BLAST results in salmonella.txt? If so, just shoot me an email and let me know and I'll change the grade appropriately.
+Documentation: 5/5, nice job with the doc string tests and documenting your functions.
 Style: 5/5 
 
 Nice work!
