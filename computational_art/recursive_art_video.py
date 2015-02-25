@@ -46,8 +46,10 @@ def build_random_function(min_depth, max_depth):
 
     # recursive call
     index = random.randint(0,3)
+    # don't your indices here mean that sinh and cosh will never actually show up?
     if index <= 3:
         return [equations[index], build_random_function(min_depth-1,max_depth-1), build_random_function(min_depth-1,max_depth-1)]
+    # I see your intention here but I'm not sure that the 1 function arguments are getting one argument. this is pretty harmless and doesn't break anything, but means that there are a lot of redundant arguments in your generated function.
     return [equations[index], build_random_function(min_depth-1,max_depth-1)]
 
 def evaluate_random_function(f, x, y, t):

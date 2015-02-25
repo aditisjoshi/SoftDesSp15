@@ -33,6 +33,7 @@ def build_random_function(min_depth, max_depth):
         #y(a,b) = b
 
     stop = min_depth == 0 and max_depth > 0 and random.randint(0,1)
+    #stop = min_depth <= 0 and random.randint(0,1) would probably make more sense here, since you want to possibly stop even when min_depth is negative, and the amx_depth == 0 statement catches the max_depth stop.
     
     # base case
     if max_depth == 0 or stop:
@@ -41,6 +42,7 @@ def build_random_function(min_depth, max_depth):
     # recursive call
     index = random.randint(0,3)
     if index <= 3:
+        # clever, I like it! but index = random.randint(0,3) means that sinh and cosh aren't included, and x() and y() are functions that were just never included here. The notation is confusing, as X was meant to be a function that chose the first of two arguments and x was a function that just returned the value x.
         return [equations[index], build_random_function(min_depth-1,max_depth-1), build_random_function(min_depth-1,max_depth-1)]
     return [equations[index], build_random_function(min_depth-1,max_depth-1)]
 
@@ -96,6 +98,7 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
     """
     input_range = float(input_interval_end - input_interval_start)
     output_range = float(output_interval_end - output_interval_start)
+    #could use (val - input_interval_start) instead.
     new_value = (-(input_interval_start - val) / input_range) * output_range + output_interval_start
     return new_value
 
@@ -175,4 +178,4 @@ if __name__ == '__main__':
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
-    test_image("noise.png")
+    #test_image("noise.png")
