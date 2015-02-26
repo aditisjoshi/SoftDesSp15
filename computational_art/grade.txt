@@ -1,5 +1,5 @@
-Functionality: 4/5, sinh and cosh were never actually in the built functions, and X(a,b) and Y(a,b) were not included. I feel that this was the assignment not being entirely clear though, and what you did was reasonable enough and the art looked cool.
+Functionality: 3.5/5, sinh and cosh were never actually in the built functions, and X(a,b) and Y(a,b) were not included. I feel that this was the assignment not being entirely clear though, and what you did was reasonable enough and the art looked cool.
 Documentation: 5/5, dandy, you saved the results and your code had the nessecary doctests.
-Style: 5/5
+Style: 4/5, comments or more clear variable naming, particularly in build_random_func, could probably have helped you to spot the errors.
 
 Overall, nice job and really cool extra credit stuff. Since you went above and beyond, despite a few issues with the random functions that were generated, you still will get a full score. But please do look at the comments and see what the mistakes in generate_random_func() were. Cool visuals!
