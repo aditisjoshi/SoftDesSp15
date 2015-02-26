@@ -79,6 +79,8 @@ def text_analysis(dictionary, words):
 	{'catz': 1}
 	>>> text_analysis({'animal': 'catz', 'fabulous': 'catz'},['catz'])
 	{'catz': 2}
+	>>> text_analysis({'animal': 'catz catz'},['catz'])
+	{'catz': 2}
 	"""
 
 	word_count = {}
@@ -86,9 +88,11 @@ def text_analysis(dictionary, words):
 	#then, use the key words in the list that was passed in to count the frequency of the words that were passed in
 	for word in words:
 		for element in dictionary.values():
-			if word in element:
-				current = dictionary.get(word,0)
-				word_count[word] = current + 1
+			values = element.split()
+			for item in values:
+				if word in item:
+					current = word_count.get(word,0)
+					word_count[word] = current + 1
  	
 	return word_count
 

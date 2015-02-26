@@ -8,11 +8,42 @@ from plotly.graph_objs import *
 
 from text_mining import *
 
-men_sentiment, women_sentiment, men_word_count, women_word_count = comment_analysis(500,['mean','boring','evil','difficult','hard','nice','friendly','smart','fun','funny','rude','ugly'])
+men_sentiment, women_sentiment, men_word_count, women_word_count = comment_analysis(5000,['mean','boring', 'difficult','hard','nice','friendly','smart','fun','funny','rude','easy', 'strict', 'suppostive', 'unfair'])
+
+
+#the following unpacks the sentiment dictionaries to get the average positivity rating and subjectivity rating for both men and women
+men_sentiment_values_list = list(men_sentiment.viewvalues())
+men_sentiment_values_dict = dict(men_sentiment_values_list)
+men_sentiment_values = list(men_sentiment_values_dict.viewkeys())
+men_subj_rating = list(men_sentiment_values_dict.viewvalues())
+avg_men_sent = sum(men_sentiment_values)/len(men_sentiment_values)
+avg_men_subj = sum(men_subj_rating)/len(men_subj_rating)
+
+women_sentiment_values_list = list(women_sentiment.viewvalues())
+women_sentiment_values_dict = dict(women_sentiment_values_list)
+women_sentiment_values = list(women_sentiment_values_dict.viewkeys())
+women_subj_rating = list(women_sentiment_values_dict.viewvalues())
+avg_women_sent = sum(women_sentiment_values)/len(women_sentiment_values)
+avg_women_subj = sum(women_subj_rating)/len(women_subj_rating)
+
+print avg_women_subj, avg_women_sent, len(women_sentiment), avg_men_subj, avg_men_sent, len(men_sentiment)
+
+
+#the next few lines normalize the data so that the graph shows the instances of usage not subjected by number of men/women
+men_values = list(men_word_count.viewvalues())
+print men_values, len(men_sentiment)
+for i in range(0,len(men_values)):
+    men_values[i] = men_values[i] / float(len(men_sentiment))
+
+women_values = list(women_word_count.viewvalues())
+print women_values, len(women_sentiment)
+for i in range(0,len(women_values)):
+    women_values[i] = women_values[i] / float(len(women_sentiment))
+
 
 trace1 = Bar(
     x=list(men_word_count.viewkeys()),
-    y=list(men_word_count.viewvalues()),
+    y=men_values,
     name='Men',
     error_y=ErrorY(
         color='rgb(0, 67, 88)',
@@ -35,7 +66,7 @@ trace1 = Bar(
 
 trace2 = Bar(
     x=list(women_word_count.viewkeys()),
-    y=list(women_word_count.viewvalues()),
+    y=women_values,
     name='Women',
     error_y=ErrorY(
         color='rgb(31, 138, 112)',
@@ -109,7 +140,7 @@ layout = Layout(
         linewidth=1
     ),
     yaxis=YAxis(
-        title='Frequency of Use',
+        title='Frequency of Use (normalized)',
         titlefont=Font(
             family='"Open sans", verdana, arial, sans-serif',
             size=14,
