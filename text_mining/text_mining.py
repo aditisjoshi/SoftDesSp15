@@ -43,9 +43,6 @@ def find_comments(n):
 			name = first_name + " " + last_name
 			gender = gp.classify(first_name)
 
-			#finding the professor department
-			title = soup.find('div', 'result-title')
-
 			#getting all of the comments
 			comments = soup.find_all('td', 'comments')
 
@@ -80,6 +77,8 @@ def text_analysis(dictionary, words):
 	
 	>>> text_analysis({'animal': 'catz'},['catz'])
 	{'catz': 1}
+	>>> text_analysis({'animal': 'catz', 'fabulous': 'catz'},['catz'])
+	{'catz': 2}
 	"""
 
 	word_count = {}
@@ -111,12 +110,11 @@ def comment_analysis(n, words):
 	men_word_count = text_analysis(men_dict, words)
 	women_word_count = text_analysis(women_dict, words)
 
-	return men_sentiment
+	return men_sentiment, women_sentiment, men_word_count, women_word_count
 
 
-print comment_analysis(5,['hi'])
+#print comment_analysis(500,['mean','boring','evil','difficult','hard','nice','friendly','smart','fun','funny','rude','ugly'])
 
-#['mean','boring','evil','difficult','hard','nice','friendly','smart','fun','funny','rude','ugly']
 
 if __name__ == "__main__":
 	import doctest

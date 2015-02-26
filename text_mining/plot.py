@@ -1,81 +1,174 @@
-# Learn about API authentication here: https://plot.ly/python/getting-started
-# Find your api_key here: https://plot.ly/settings/api
+# You can reproduce this figure in Python with the following code!
+
+# Learn about API authentication here: {{BASE_URL}}/python/getting-started
+# Find your api_key here: {{BASE_URL}}/settings/api
 
 import plotly.plotly as py
 from plotly.graph_objs import *
 
-trace1 = Scatter(
-    x=[52698, 43117],
-    y=[53, 31],
-    mode='markers',
-    name='North America',
-    text=['United States', 'Canada'],
+from text_mining import *
+
+men_sentiment, women_sentiment, men_word_count, women_word_count = comment_analysis(500,['mean','boring','evil','difficult','hard','nice','friendly','smart','fun','funny','rude','ugly'])
+
+trace1 = Bar(
+    x=list(men_word_count.viewkeys()),
+    y=list(men_word_count.viewvalues()),
+    name='Men',
+    error_y=ErrorY(
+        color='rgb(0, 67, 88)',
+        thickness=1,
+        width=1
+    ),
+    error_x=ErrorX(
+        copy_ystyle=True
+    ),
     marker=Marker(
-        color='rgb(164, 194, 244)',
-        size=12,
+        color='#1f77b4',
         line=Line(
-            color='white',
-            width=0.5
+            color='#444',
+            width=0
         )
-    )
+    ),
+    opacity=1,
+    visible=True
 )
-trace2 = Scatter(
-    x=[39317, 37236, 35650, 30066, 29570, 27159, 23557, 21046, 18007],
-    y=[33, 20, 13, 19, 27, 19, 49, 44, 38],
-    mode='markers',
-    name='Europe',
-    text=['Germany', 'Britain', 'France', 'Spain', 'Italy', 'Czech Rep.', 'Greece', 'Poland'],
+
+trace2 = Bar(
+    x=list(women_word_count.viewkeys()),
+    y=list(women_word_count.viewvalues()),
+    name='Women',
+    error_y=ErrorY(
+        color='rgb(31, 138, 112)',
+        thickness=1,
+        width=1
+    ),
+    error_x=ErrorX(
+        copy_ystyle=True
+    ),
     marker=Marker(
-        color='rgb(255, 217, 102)',
-        size=12,
+        color='rgb(214, 39, 40)',
         line=Line(
-            color='white',
-            width=0.5
+            color='#444',
+            width=0
         )
-    )
+    ),
+    opacity=1
 )
-trace3 = Scatter(
-    x=[42952, 37037, 33106, 17478, 9813, 5253, 4692, 3899],
-    y=[23, 42, 54, 89, 14, 99, 93, 70],
-    mode='markers',
-    name='Asia/Pacific',
-    text=['Australia', 'Japan', 'South Korea', 'Malaysia', 'China', 'Indonesia', 'Philippines', 'India'],
-    marker=Marker(
-        color='rgb(234, 153, 153)',
-        size=12,
-        line=Line(
-            color='white',
-            width=0.5
-        )
-    )
-)
-trace4 = Scatter(
-    x=[19097, 18601, 15595, 13546, 12026, 7434, 5419],
-    y=[43, 47, 56, 80, 86, 93, 80],
-    mode='markers',
-    name='Latin America',
-    text=['Chile', 'Argentina', 'Mexico', 'Venezuela', 'Venezuela', 'El Salvador', 'Bolivia'],
-    marker=Marker(
-        color='rgb(142, 124, 195)',
-        size=12,
-        line=Line(
-            color='white',
-            width=0.5
-        )
-    )
-)
-data = Data([trace1, trace2, trace3, trace4])
+data = Data([trace1, trace2])
 layout = Layout(
-    title='Quarter 1 Growth',
+    title='Adjectives Used to Describe Professors on ratemyprofessor.com',
+    titlefont=Font(
+        family='"Open sans", verdana, arial, sans-serif',
+        size=17,
+        color='#444'
+    ),
+    font=Font(
+        family='"Open sans", verdana, arial, sans-serif',
+        size=12,
+        color='#444'
+    ),
+    showlegend=True,
+    autosize=True,
+    width=1022,
+    height=617,
     xaxis=XAxis(
-        title='GDP per Capita',
+        title='Adjective',
+        titlefont=Font(
+            family='"Open sans", verdana, arial, sans-serif',
+            size=14,
+            color='#444'
+        ),
+        range=[-0.5, 11.5],
+        type='category',
+        rangemode='normal',
+        autorange=True,
         showgrid=False,
-        zeroline=False
+        zeroline=False,
+        showline=False,
+        autotick=True,
+        nticks=0,
+        ticks='',
+        showticklabels=True,
+        tick0=0,
+        dtick=1,
+        ticklen=6,
+        tickcolor='rgba(0, 0, 0, 0)',
+        tickangle='auto',
+        tickfont=Font(
+            family='"Open sans", verdana, arial, sans-serif',
+            size=12,
+            color='#444'
+        ),
+        exponentformat='B',
+        showexponent='all',
+        mirror='allticks',
+        gridcolor='white',
+        gridwidth=1,
+        zerolinewidth=1,
+        linecolor='rgb(34,34,34)',
+        linewidth=1
     ),
     yaxis=YAxis(
-        title='Percent',
-        showline=False
-    )
+        title='Frequency of Use',
+        titlefont=Font(
+            family='"Open sans", verdana, arial, sans-serif',
+            size=14,
+            color='#444'
+        ),
+        range=[0, 24.210526315789473],
+        type='linear',
+        rangemode='normal',
+        autorange=True,
+        showgrid=True,
+        zeroline=True,
+        showline=False,
+        autotick=True,
+        nticks=0,
+        ticks='',
+        showticklabels=True,
+        tick0=0,
+        dtick=1,
+        ticklen=6,
+        tickcolor='rgba(0, 0, 0, 0)',
+        tickangle='auto',
+        tickfont=Font(
+            family='"Open sans", verdana, arial, sans-serif',
+            size=12,
+            color='#444'
+        ),
+        exponentformat='B',
+        showexponent='all',
+        mirror='allticks',
+        gridcolor='#eee',
+        gridwidth=1,
+        zerolinecolor='#444',
+        zerolinewidth=1,
+        linecolor='rgb(34,34,34)',
+        linewidth=1
+    ),
+    legend=Legend(
+        x=1.02,
+        y=1,
+        traceorder='normal',
+        font=Font(
+            family='"Open sans", verdana, arial, sans-serif',
+            size=12,
+            color='#444'
+        ),
+        bgcolor='#fff',
+        bordercolor='#444',
+        borderwidth=0,
+        xref='paper',
+        yref='paper'
+    ),
+    paper_bgcolor='#fff',
+    plot_bgcolor='#fff',
+    hovermode='x',
+    dragmode='zoom',
+    separators='.,',
+    bargap=0.2,
+    bargroupgap=0,
+    hidesources=False
 )
 fig = Figure(data=data, layout=layout)
-plot_url = py.plot(fig, filename='line-style')
+plot_url = py.plot(fig)
