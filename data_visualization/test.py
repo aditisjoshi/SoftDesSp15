@@ -12,10 +12,26 @@ consumer_secret = "lFHVJqO6aPZGmiDBSwVJjB4icHd6a5CmHDCxVV8IhgxPZELyDV"
 auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
 auth.set_access_token(access_token,access_token_secret)
 api = tweepy.API(auth)
+"""
+blackandblue
+blacknblue
+blackblue
+blueandblack
+bluenblack
+blueblack
 
+whiteandgold
+whitengold
+whitegold
+goldandwhite
+goldnwhite
+goldwhite
+
+all of the above + "dress"
+"""
 search_text = "#thedress"
 search_number = 100
-search_result = api.search(search_text, until='2015-03-04')
+search_result = api.search(search_text, since='2015-02-26', until='2015-03-04')
 for i in search_result:
     print i.text
 
