@@ -9,28 +9,19 @@ def get_word_list(file_name):
 		returns a list of the words used in the book as a list.
 		All words are converted to lower case.
 	"""
-	f = open(file_name,'r')
-	lines = f.readlines()
-	punctuation = string.punctuation
-	curr_line = 0
-	words = []
-	while lines[curr_line].find('START OF THIS PROJECT GUTENBERG EBOOK') == -1:
-		curr_line += 1
-	lines = lines[curr_line+1:]
-	for item in lines:
-		word = item.split()
-		for item in word:
-			for letter in punctuation:
-				print letter
-				
-				item = item.replace(letter,'')
-			item = item.strip(string.whitespace)
-			item = item.lower()
-			words.append(item)
-	test = 'twenty!two'
-	print string.punctuation
-	print test.strip(string.punctuation)
-	return words[0:100]
+	start_string = 'START OF THIS PROJECT GUTENBERG EBOOK'
+
+	# opening book and reading 
+	with open(file_name,'r') as f:
+		whole_text = f.read()
+
+	# finding the start
+	start = whole_text.find(start_string)
+	whole_text = whole_text[start+len(start_string):]
+	whole_text = whole_text.translate(None, string.punctuation).lower().strip()
+
+	# splitting into words and returning 
+	return whole_text.split()
 
 def get_top_n_words(word_list, n):
 	""" Takes a list of words as input and returns a list of the n most frequently
@@ -42,6 +33,15 @@ def get_top_n_words(word_list, n):
 		returns: a list of n most frequently occurring words ordered from most
 				 frequently to least frequently occurring
 	"""
-	pass
+	word_count = {}
 
-print get_word_list('littleWomen.txt')
+	for word in word_list:
+		current = word_count.get(word,0)
+		word_count[word] = current + 1
+
+	word_frequency = sorted(word_count.items(), key=lambda x: -x[1])
+
+	return [word for word,frequency in word_frequency[:n]]
+
+word_list = get_word_list('littleWomen.txt')
+print get_top_n_words(word_list,100)
