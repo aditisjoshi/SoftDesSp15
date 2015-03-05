@@ -9,8 +9,7 @@ enable the user to view which opinion over time.
 
 """
 
-## Hashtag permutations
-	"""
+""" Hashtag Permutations
 	'blackandblue'
 	'blacknblue'
 	'blackblue'
@@ -27,8 +26,7 @@ enable the user to view which opinion over time.
 
 	all of the above + 'dress'
 
-	'thedress'
-	"""
+	'thedress'	"""
 
 theDresstags = ['blackandblue','blacknblue','blackblue','blueandblack','bluenblack',
 				'blueblack','whiteandgold','whitengold','whitegold','goldandwhite',
@@ -47,9 +45,7 @@ def string2hashtag(strlist):
 
 	return theDresshashtags
 
-print string2hashtag(theDresstags)
-
-
+#########################################################################
 
 """Twitter streaming"""
 #Import the necessary methods from tweepy library
@@ -57,11 +53,11 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 
-#Variables that contains the user credentials to access Twitter API 
-access_token = "ENTER YOUR ACCESS TOKEN"
-access_token_secret = "ENTER YOUR ACCESS TOKEN SECRET"
-consumer_key = "ENTER YOUR API KEY"
-consumer_secret = "ENTER YOUR API SECRET"
+#Variables that contains Aditi's user credentials to access Twitter API 
+access_token = '2272000956-r0BA11BAK00nRKnclrr4W5LcjrgpvvlTev9rAXI'
+access_token_secret = 'RJ1kFN7VaQAohQydIqa9RcY2gtWDBnGZtKi5PJQ3LOVTj'
+consumer_key = "tOcOW6RJY0mUqLYavfiZEDOEs"
+consumer_secret = "lFHVJqO6aPZGmiDBSwVJjB4icHd6a5CmHDCxVV8IhgxPZELyDV"
 
 
 #This is a basic listener that just prints received tweets to stdout.
@@ -84,4 +80,4 @@ if __name__ == '__main__':
     stream = Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-    stream.filter(track=['python', 'javascript', 'ruby'])
+    stream.filter(track=string2hashtag(theDresstags))
