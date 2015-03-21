@@ -10,6 +10,7 @@ https://sites.google.com/site/sd15spring/home/project-toolbox/geocoding-and-web-
 import urllib   # urlencode function
 import urllib2  # urlopen function (better than urllib version)
 import json
+from pprint import pprint
 
 
 # Useful URLs (you need to add the appropriate parameters for your requests)
@@ -25,7 +26,21 @@ def get_json(url):
     Given a properly formatted URL for a JSON web API request, return
     a Python JSON object containing the response to that request.
     """
-    pass
+    f = urllib2.urlopen(url)
+    response_text = f.read()
+    response_data = json.loads(response_text)
+    return response_data
+
+
+def into_url(place_name):
+    """
+    Given a place name or address, turn that into a url that can then be
+    put into Google Maps to find its information
+    """
+    d = {"address" : place_name}
+    address = urllib.urlencode(d)
+    url = GMAPS_BASE_URL + '?' + address
+    return url
 
 
 def get_lat_long(place_name):
@@ -36,7 +51,15 @@ def get_lat_long(place_name):
     See https://developers.google.com/maps/documentation/geocoding/
     for Google Maps Geocode API URL formatting requirements.
     """
-    pass
+    # first get the url from the place_name
+    url = into_url(place_name)
+
+    # once you have the url, you can then use the previous function to get 
+    # the data and then extract latitude and longitude
+    response_data = get_json(url)
+    lat = response_data["results"][0]["geometry"]["location"]['lat']
+    lng = response_data["results"][0]["geometry"]["location"]['lng']
+    return (lat,lng)
 
 
 def get_nearest_station(latitude, longitude):
