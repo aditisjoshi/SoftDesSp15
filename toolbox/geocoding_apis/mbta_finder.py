@@ -15,7 +15,7 @@ from pprint import pprint
 
 # Useful URLs (you need to add the appropriate parameters for your requests)
 GMAPS_BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
-MBTA_BASE_URL = "http://realtime.mbta.com/developer/api/v2/stopsbylocation"
+MBTA_BASE_URL = "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key={}&lat={}&lon={}&format=json"
 MBTA_DEMO_API_KEY = "wX9NwuHnZU2ToO7GmGR9uw"
 
 
@@ -70,7 +70,24 @@ def get_nearest_station(latitude, longitude):
     See http://realtime.mbta.com/Portal/Home/Documents for URL
     formatting requirements for the 'stopsbylocation' API.
     """
-    pass
+    # this gets the right url 
+    mbta_url_formatted = MBTA_BASE_URL.format(MBTA_DEMO_API_KEY, latitude, longitude)
+    stations = get_json(mbta_url_formatted)
+
+    # creating an empty list for all of the stops 
+    all_stops = []
+
+    # this says that if there are no close stops, say that there are no close stops
+    if len(stations["stop"]) == 0:
+        return "There are no stops close to your location"
+
+    # this gets rid of the bus stations and only gets subway stations
+    else:
+        for station in stations["stop"]:
+            all_stops.append(station["parent_station_name"])
+        for i, parent_station_name in enumerate(all_stops):
+            if len(parent_station_name) != 0:
+                return parent_station_name, stations["stop"][i]["distance"]
 
 
 def find_stop_near(place_name):
@@ -78,5 +95,16 @@ def find_stop_near(place_name):
     Given a place name or address, print the nearest MBTA stop and the 
     distance from the given place to that stop.
     """
-    pass
+    # creating a format for what it returns
+    result_text = "{} is {} miles from {}"
 
+    # getting the actual information
+    lat, lng = get_lat_long(place_name)
+    station, distance = get_nearest_station(lat, lng)
+
+    # formatting the resulting text 
+    return result_text.format(station, distance, place_name)
+
+
+if __name__ == '__main__':
+    print find_stop_near('789 Somerville Avenue, Somerville, MA')
