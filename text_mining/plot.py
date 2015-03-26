@@ -7,6 +7,7 @@ import plotly.plotly as py
 from plotly.graph_objs import *
 
 from text_mining import *
+#Using import * is generally not considered great style because it is not explicit what you are going to use. So I have no idea that comment_analysis comes from the text_mining module unless I've read through the text_mining module. Best to do from text_mining import comment_analysis, blah, etc.
 
 men_sentiment, women_sentiment, men_word_count, women_word_count = comment_analysis(5000,['mean','boring', 'difficult','hard','nice','friendly','smart','fun','funny','rude','easy', 'strict', 'suppostive', 'unfair'])
 
@@ -25,6 +26,7 @@ women_sentiment_values = list(women_sentiment_values_dict.viewkeys())
 women_subj_rating = list(women_sentiment_values_dict.viewvalues())
 avg_women_sent = sum(women_sentiment_values)/len(women_sentiment_values)
 avg_women_subj = sum(women_subj_rating)/len(women_subj_rating)
+#you're doing a lot of repetition here. Probably best to make a function!
 
 print avg_women_subj, avg_women_sent, len(women_sentiment), avg_men_subj, avg_men_sent, len(men_sentiment)
 
@@ -39,8 +41,10 @@ women_values = list(women_word_count.viewvalues())
 print women_values, len(women_sentiment)
 for i in range(0,len(women_values)):
     women_values[i] = women_values[i] / float(len(women_sentiment))
+#kind of writing out the same chunk of code twice again, whenever you find yourself doing this you should write a function instead!
 
 
+#I'd recommend separating out a lot of this formatting stuff into a separate python file called formatting.py or something that you can import this from and parameterize/fill in with values. It'd make this a lot cleaner and make the flow of logic visible and easier to follow.
 trace1 = Bar(
     x=list(men_word_count.viewkeys()),
     y=men_values,

@@ -8,6 +8,7 @@ goal of the project: to find comments from ratemyprofessors.com and parse throug
 
 from pattern.web import *
 from pattern.en import * 
+#try not to use import *s! look at this same comment in your other file for an explanation of why.
 from bs4 import BeautifulSoup as BS
 import random
 from genderPredictor import genderPredictor
@@ -27,6 +28,7 @@ def find_comments(n):
 	#importing modules from the external file that will predict the gender
 	gp = genderPredictor()
 	gp.trainAndTest()
+        #nitpicky point here: might be better to have gp be passed into this function from outside. That way your concerns are separated and if your program takes a long time to run, I'll know whether gp.trainAndTest() is the issue or if find_comments is the issue.
 
 	for i in range(1,n + 1):
 
