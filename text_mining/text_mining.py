@@ -39,6 +39,7 @@ def find_comments(n):
 		
 		#checking to make sure that the url is valid
 		try:
+                #this function is getting a bit big, it'd probably be best to make MOAR FUNCTIONZ for this. Rule of thumb to think about: try to keep your functions under 20 lines.
 			#getting name and using external file to predict its gender
 			first_name = soup.find('span', 'pfname').string
 			last_name = soup.find('span', 'plname').string
